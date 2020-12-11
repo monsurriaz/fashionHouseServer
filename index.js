@@ -22,40 +22,49 @@ client.connect(err => {
     const adminsCollection = client.db(`${process.env.DB_NAME}`).collection("admins");
   
 
-app.get('/', (req, res) => {
-    res.status(200).send("Hello from DB, it's working");
-});
+    app.post('/addProducts', (req, res) => {
+        const products = req.body;
+        productsCollection.insertOne(products)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+        })
+    });
 
-app.post('/addProducts', (req, res) => {
-    const products = req.body;
-    productsCollection.insertOne(products)
-    .then(result => {
-        res.send(result.insertedCount > 0)
-    })
-});
-
-app.get('/showProducts', (req, res) => {
-    productsCollection.find({})
-    .toArray((err, products) => {
-        res.send(products)
-    })
-});
+    app.get('/showProducts', (req, res) => {
+        productsCollection.find({})
+        .toArray((err, products) => {
+            res.send(products)
+        })
+    });
 
 
-app.post('/addAdmin', (req, res) => {
-    const admin = req.body;
-    adminsCollection.insertOne(admin)
-    .then(result => {
-        res.send(result.insertedCount > 0)
-    })
-});
+    app.post('/addAdmin', (req, res) => {
+        const admin = req.body;
+        adminsCollection.insertOne(admin)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+        })
+    });
 
-app.get('/showAdmin', (req, res) => {
-    adminsCollection.find({})
-    .toArray((err, admins) => {
-        res.send(admins)
-    })
-});
+    app.get('/showAdmin', (req, res) => {
+        adminsCollection.find({})
+        .toArray((err, admins) => {
+            res.send(admins)
+        })
+    });
+
+    app.post('/isAdmin', (req, res) => {
+        const email = req.body.email;
+        adminsCollection.find({email: email})
+        .toArray((err, admin) => {
+          res.send(admin.length > 0)
+        })
+    });
+
+
+    app.get('/', (req, res) => {
+        res.status(200).send("Hello from DB, it's working");
+    });
 
 });
 
