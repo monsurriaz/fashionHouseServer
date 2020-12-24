@@ -22,23 +22,40 @@ client.connect(err => {
     const productsCollection = client.db(`${process.env.DB_NAME}`).collection("products");
     const mensCollection = client.db(`${process.env.DB_NAME}`).collection("mens");
     const womensCollection = client.db(`${process.env.DB_NAME}`).collection("womens");
+    const goodsCollection = client.db(`${process.env.DB_NAME}`).collection("goods");
+    const booksCollection = client.db(`${process.env.DB_NAME}`).collection("books");
     const adminsCollection = client.db(`${process.env.DB_NAME}`).collection("admins");
     // const todosCollection = client.db(`${process.env.DB_NAME}`).collection("todos");
   
-    // app.post('/addTodo', (req, res) => {
-    //     const todos = req.body;
-    //     todosCollection.insertOne(todos)
-    //     .then(result => {
-    //         res.send(result.insertedCount > 0)
-    //     })
-    // });
+    app.post('/addGoods', (req, res) => {
+        const goods = req.body;
+        goodsCollection.insertMany(goods)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+        })
+    });
 
-    // app.get('/showTodo', (req, res) => {
-    //     todosCollection.find({})
-    //     .toArray((err, todos) => {
-    //         res.send(todos)
-    //     })
-    // });
+    app.get('/showGoods', (req, res) => {
+        goodsCollection.find({})
+        .toArray((err, goods) => {
+            res.send(goods)
+        })
+    });
+
+    app.post('/addBooks', (req, res) => {
+        const books = req.body;
+        booksCollection.insertMany(books)
+        .then(result => {
+            res.send(result.insertedCount > 0)
+        })
+    });
+
+    app.get('/showBooks', (req, res) => {
+        booksCollection.find({})
+        .toArray((err, books) => {
+            res.send(books)
+        })
+    });
 
     app.post('/addProducts', (req, res) => {
         const products = req.body;
