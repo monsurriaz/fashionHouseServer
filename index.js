@@ -29,7 +29,7 @@ client.connect(err => {
   
     app.post('/addGoods', (req, res) => {
         const goods = req.body;
-        goodsCollection.insertMany(goods)
+        goodsCollection.insertOne(goods)
         .then(result => {
             res.send(result.insertedCount > 0)
         })
@@ -44,7 +44,7 @@ client.connect(err => {
 
     app.post('/addBooks', (req, res) => {
         const books = req.body;
-        booksCollection.insertMany(books)
+        booksCollection.insertOne(books)
         .then(result => {
             res.send(result.insertedCount > 0)
         })
