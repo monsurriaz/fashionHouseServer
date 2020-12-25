@@ -28,6 +28,8 @@ client.connect(err => {
     const adminsCollection = client.db(`${process.env.DB_NAME}`).collection("admins");
     // const todosCollection = client.db(`${process.env.DB_NAME}`).collection("todos");
   
+
+    // goods start
     app.post('/addGoods', (req, res) => {
         const goods = req.body;
         goodsCollection.insertOne(goods)
@@ -43,6 +45,15 @@ client.connect(err => {
         })
     });
 
+    app.get('/showGoods/:id', (req, res) => {
+        goodsCollection.find({_id: ObjectId(req.params.id)})
+        .toArray((err, goods) => {
+            res.send(goods[0])
+        })
+    });
+
+
+    //books start
     app.post('/addBooks', (req, res) => {
         const books = req.body;
         booksCollection.insertOne(books)
@@ -61,10 +72,12 @@ client.connect(err => {
     app.get('/showBooks/:id', (req, res) => {
         booksCollection.find({_id: ObjectId(req.params.id)})
         .toArray((err, books) => {
-            res.send(books)
+            res.send(books[0])
         })
     });
 
+
+    // new arrivals product start
     app.post('/addProducts', (req, res) => {
         const products = req.body;
         console.log(products);
@@ -81,14 +94,15 @@ client.connect(err => {
         })
     });
 
-    app.get('/showProducts/:key', (req, res) => {
-        productsCollection.find({key: req.params.key})
+    app.get('/showProducts/:id', (req, res) => {
+        productsCollection.find({_id: req.params.id})
         .toArray((err, products) => {
             res.send(products[0])
         })
     });
 
 
+    // mens products start
     app.post('/addmensProducts', (req, res) => {
         const mens = req.body;
         // console.log(mens);
@@ -105,6 +119,15 @@ client.connect(err => {
         })
     });
 
+    app.get('/showMensProducts/:id', (req, res) => {
+        mensCollection.find({_id: ObjectId(req.params.id)})
+        .toArray((err, products) => {
+            res.send(products[0])
+        })
+    });
+
+
+    // womens products start
     app.post('/addWomensProducts', (req, res) => {
         const womens = req.body;
         // console.log(womens);
@@ -121,7 +144,15 @@ client.connect(err => {
         })
     });
 
+    app.get('/showWomensProducts/id', (req, res) => {
+        womensCollection.find({_id: ObjectId(req.params.id)})
+        .toArray((err, products) => {
+            res.send(products[0])
+        })
+    });
 
+    
+    // admin collection start
     app.post('/addAdmin', (req, res) => {
         const admin = req.body;
         adminsCollection.insertOne(admin)
@@ -136,6 +167,8 @@ client.connect(err => {
             res.send(admins)
         })
     });
+
+
 
     app.post('/isAdmin', (req, res) => {
         const email = req.body.email;
