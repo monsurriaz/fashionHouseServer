@@ -95,7 +95,7 @@ client.connect(err => {
     });
 
     app.get('/showProducts/:id', (req, res) => {
-        productsCollection.find({_id: req.params.id})
+        productsCollection.find({_id: ObjectId(req.params.id)})
         .toArray((err, products) => {
             res.send(products[0])
         })
@@ -144,7 +144,7 @@ client.connect(err => {
         })
     });
 
-    app.get('/showWomensProducts/id', (req, res) => {
+    app.get('/showWomensProducts/:id', (req, res) => {
         womensCollection.find({_id: ObjectId(req.params.id)})
         .toArray((err, products) => {
             res.send(products[0])
